@@ -16,6 +16,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+/**
+ * Filter which intercepts every request once and examines the header
+ */
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
     @Autowired
@@ -24,6 +28,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtil jwtUtil;
 
+    /**
+     * Examine incoming requests for the JWT in the header and checks if it is valid
+     * If it is, it gets the user details out of the userDetailsService and save it in the security context
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         final String authorizationHeader = request.getHeader("Authorization");

@@ -22,11 +22,20 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
 
+    /**
+     * Method which compare username and password entered during the authentication with the userDetailsService
+     * Checks if the authentication is successful or not
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(myUserDetailsService);
     }
 
+    /**
+     * Disables cross-site request forgery and authorize request with /authenticate
+     * Authentication is still needed for the other requests
+     * STATELESS is here to avoid the creation of session by spring security and use JWT
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
@@ -38,10 +47,15 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     }
 
+    /**
+     * Thanks to that,
+     * Spring security framework treats all incoming password and don't hash them
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }
+
 
     @Override
     @Bean

@@ -11,8 +11,12 @@ import java.util.ArrayList;
 @Service
 public class MyUserDetailsService implements UserDetailsService {
 
+    /**
+     * Method called by Spring framework in order to load a user by a username
+     * @return a User with a username, a password and a collection of authorities (empty here)
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return new User("foo", "foo", new ArrayList<>());
+        return new User("toto", "toto", new ArrayList<>());
     }
 }

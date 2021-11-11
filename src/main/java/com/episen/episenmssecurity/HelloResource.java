@@ -27,11 +27,19 @@ public class HelloResource {
     @Autowired
     private JwtUtil jwtTokenUtil;
 
+    /**
+     * First endpoint accessible with a specific JWT and returns content
+     */
     @RequestMapping({"/hello"})
     public String hello() {
         return "Hello World";
     }
 
+    /**
+     * Second endpoint for authentication which accepts user ID and password and returns JWT
+     * @param authenticationRequest sending by a POST request
+     * @return a JWT as response
+     */
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
         try {

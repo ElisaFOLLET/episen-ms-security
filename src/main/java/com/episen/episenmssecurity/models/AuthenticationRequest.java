@@ -1,5 +1,8 @@
 package com.episen.episenmssecurity.models;
 
+/**
+ * Define the input argument for the authenticate method
+ */
 public class AuthenticationRequest {
     private String username;
     private String password;
