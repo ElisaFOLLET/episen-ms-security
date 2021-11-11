@@ -51,14 +51,15 @@ Cela nous donne comme réponse :
   
 Une fois le JWT récupéré, nous pouvons le réutiliser pour tester le second endpoint qui récupère un JWT existant et donne l'accès à une URL, dans Postman, réaliser une requête POST avec :
   - URL : localhost:8070/hello
+  - Dans Header, ajouter : Key: "Authorization" et Value: "Bearer [header].[payload].[signature]" 
   - Body :
     {
     "jwt": "[header].[payload].[signature]" 
     }
-  - Dans Header, ajouter : Key: "Authorization" et Value: "Bearer [header].[payload].[signature]" 
 
 "[header].[payload].[signature]" correspond au jwt récupéré avec /authenticate
  Cela nous donne comme réponse :
   - "toto"
+  
 Il s'agit du seul utilisateur autorisé à se logger dans notre application
  
