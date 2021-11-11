@@ -30,11 +30,11 @@ public class HelloResource {
     /**
      * First endpoint accessible with a specific JWT and returns content
      */
-    @RequestMapping({"/hello"})
-    public String hello() {
-        return "Hello World";
+    @RequestMapping(value = "/hello", method = RequestMethod.POST)
+    public String hello(@RequestBody AuthenticationResponse authenticationResponse) {
+        return jwtTokenUtil.extractUsername(authenticationResponse.getJwt());
+        //return "Hello World";
     }
-
     /**
      * Second endpoint for authentication which accepts user ID and password and returns JWT
      * @param authenticationRequest sending by a POST request

@@ -49,10 +49,16 @@ Nous allons d'abord tester l'endpoint qui récupère un username ainsi qu'un pas
 Cela nous donne comme réponse :
   "jwt": "[header].[payload].[signature]"
   
-Une fois le JWT récupéré, nous pouvons le réutiliser pour tester le second endpoint qui récupère un JWT existant et donne l'accès à une URL, dans Postman, réaliser une requête GET avec :
+Une fois le JWT récupéré, nous pouvons le réutiliser pour tester le second endpoint qui récupère un JWT existant et donne l'accès à une URL, dans Postman, réaliser une requête POST avec :
   - URL : localhost:8070/hello
-  - Dans Header, ajouter : Key: "Authorization" et Value: "Bearer [header].[payload].[signature]" (il s'agit ici du jwt récupéré avec /authenticate)
-  
+  - Body :
+    {
+    "jwt": "[header].[payload].[signature]" 
+    }
+  - Dans Header, ajouter : Key: "Authorization" et Value: "Bearer [header].[payload].[signature]" 
+
+"[header].[payload].[signature]" correspond au jwt récupéré avec /authenticate
  Cela nous donne comme réponse :
-  - "Hello World"
+  - "toto"
+Il s'agit du seul utilisateur autorisé à se logger dans notre application
  
