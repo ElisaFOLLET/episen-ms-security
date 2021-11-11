@@ -36,3 +36,23 @@ Le container est lancée ainsi que notre application, nous pouvons passer aux te
 
 ###### Test Rest API
 
+Tous les tests de l'API peuvent se réaliser sur Postman. 
+Nous allons d'abord tester l'endpoint qui récupère un username ainsi qu'un password et génère le JWT correspondant. Pour cela, il faut faire une requête POST telle que :
+  - URL : localhost:8070/authenticate
+  - Dans Headers, ajouter : Key: "Content-Type" et Value: "json/application"
+  - Body : 
+  {
+    "username": "toto",
+    "password": "toto"
+  }
+  
+Cela nous donne comme réponse :
+  "jwt": "[header].[payload].[signature]"
+  
+Une fois le JWT récupéré, nous pouvons le réutiliser pour tester le second endpoint qui récupère un JWT existant et donne l'accès à une URL, dans Postman, réaliser une requête GET avec :
+  - URL : localhost:8070/hello
+  - Dans Header, ajouter : Key: "Authorization" et Value: "Bearer [header].[payload].[signature]" (il s'agit ici du jwt récupéré avec /authenticate)
+  
+ Cela nous donne comme réponse :
+  - "Hello World"
+ 
