@@ -9,7 +9,7 @@ RUN DEBIAN_FRONTEND="noninteractive" apt-get -y install tzdata
 RUN apt-get install -y -q git maven
 
 #Récupération de mon repository Git avec le microservice
-RUN git clone \
+RUN git clone https://github.com/ElisaFOLLET/episen-ms-security \
 && cd episen-ms-security/ \
 && mvn clean package
 

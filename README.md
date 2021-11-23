@@ -44,7 +44,7 @@ $ docker images | grep episen-ms-security
 
 Si c'est le cas, nous pouvons lancer le container comme ceci :
 
-$ docker run -d --name episen-ms-security -p 8070:8070 <id-image>
+$ docker run -d --name episen-ms-security -p 8070:8070 id-image
 
 L'application se lance avec le port 8070 du container. Il faut donc s'assurer que le mapping est correct. Ici, nous aurions pu mettre un autre port pour notre machine.
 Nous pouvons vérifier que le container s'est correctement construit :
