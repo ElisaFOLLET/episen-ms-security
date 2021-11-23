@@ -1,5 +1,29 @@
 # episen-ms-security - Elisa FOLLET - ING3 FISE
 
+Ce projet utilise le framework Spring Security et implémente un JWT basé sur une authentification et une autorisation.
+
+###### Generate Private Key
+
+Certificat auto-généré, non vérifié par une autorité de certification
+Approche valable pour des tests mais non recommandée en production
+
+Pour générer un certificat et une clé privée :
+
+$ openssl req -x509 -newkey rsa:3072 -keyout rsa_private.pem -nodes -out rsa_cert.pem -subj "/CN=unsused"
+
+On a à présent :
+
+    rsa_private.pem: la clé privée
+    rsa_cert.pem: le certificat
+
+Pour générer le fichier .p12 :
+
+$ openssl pkcs12 -inkey rsa_private.pem -in rsa_cert.pem -export -out server.p12 -name episen
+
+Pour vérifier le fichier server.p12 :
+
+$ openssl pkcs12 -in server.p12 -noout -info
+
 ###### Docker 
 
 Le fichier Dockerfile permet de :
@@ -43,13 +67,15 @@ Nous allons d'abord tester l'endpoint qui récupère un username ainsi qu'un pas
   - Body : 
   {
     "username": "toto",
-    "password": "toto"
+    "password": "toto",
+    "roles": ["manager"]
   }
   
 Cela nous donne comme réponse :
   "jwt": "[header].[payload].[signature]"
   
-Une fois le JWT récupéré, nous pouvons le réutiliser pour tester le second endpoint qui récupère un JWT existant et donne l'accès à une URL, dans Postman, réaliser une requête POST avec :
+Une fois le JWT récupéré, nous pouvons le réutiliser pour tester le second endpoint qui récupère un JWT existant et donne accès à une URL.
+Dans Postman, réaliser une requête POST avec :
   - URL : localhost:8070/hello
   - Dans Header, ajouter : Key: "Authorization" et Value: "Bearer [header].[payload].[signature]" 
   - Body :
@@ -59,7 +85,8 @@ Une fois le JWT récupéré, nous pouvons le réutiliser pour tester le second e
 
 "[header].[payload].[signature]" correspond au jwt récupéré avec /authenticate
  Cela nous donne comme réponse :
-  - "toto"
+  - "username : toto"
   
-Il s'agit du seul utilisateur autorisé à se logger dans notre application
+Il s'agit du seul utilisateur autorisé à se logger dans notre application. 
+Idéalement, nous pourrions nous connecter à une base de données et récupérer tous les utilisateurs enregistrés.
  

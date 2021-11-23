@@ -1,9 +1,10 @@
 package com.episen.episenmssecurity;
 
-import com.episen.episenmssecurity.models.AuthenticationRequest;
 import com.episen.episenmssecurity.models.AuthenticationResponse;
+import com.episen.episenmssecurity.models.UserContext;
 import com.episen.episenmssecurity.services.MyUserDetailsService;
-import com.episen.episenmssecurity.util.JwtUtil;
+import com.episen.episenmssecurity.security.JwTokenGenerator;
+import com.episen.episenmssecurity.security.JwTokenValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,26 +26,28 @@ public class HelloResource {
     private MyUserDetailsService userDetailsService;
 
     @Autowired
-    private JwtUtil jwtTokenUtil;
+    private JwTokenGenerator jwtTokenUtil;
+
+    @Autowired
+    private JwTokenValidator jwtTokenUtilValidator;
 
     /**
      * First endpoint accessible with a specific JWT and returns content
      */
     @RequestMapping(value = "/hello", method = RequestMethod.POST)
     public String hello(@RequestBody AuthenticationResponse authenticationResponse) {
-        return jwtTokenUtil.extractUsername(authenticationResponse.getJwt());
-        //return "Hello World";
+        return "username : " + jwtTokenUtilValidator.extractUsername(authenticationResponse.getJwt()).getSubject();
     }
     /**
      * Second endpoint for authentication which accepts user ID and password and returns JWT
-     * @param authenticationRequest sending by a POST request
+     * @param userContext sending by a POST request
      * @return a JWT as response
      */
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody UserContext userContext) throws Exception {
         try {
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword())
+                    new UsernamePasswordAuthenticationToken(userContext.getSubject(), userContext.getPassword())
             );
         }
         catch (BadCredentialsException e) {
@@ -52,7 +55,7 @@ public class HelloResource {
         }
 
         final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(authenticationRequest.getUsername());
+                .loadUserByUsername(userContext.getSubject());
 
         final String jwt = jwtTokenUtil.generateToken(userDetails);
 
