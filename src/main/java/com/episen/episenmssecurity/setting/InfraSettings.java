@@ -9,8 +9,8 @@ import java.security.cert.Certificate;
 
 public class InfraSettings {
     public static KeyPair keyPairLoader(){
-
-        try(FileInputStream is = new FileInputStream("C:/Users/elisa/git-workspace/episen-ms-security/src/main/resources/keys/server.p12")) {
+//C:/Users/elisa/git-workspace/episen-ms-security/src/main/resources/keys/server.p12 en local
+        try(FileInputStream is = new FileInputStream("/home/esipe/server.p12")) {
 
             KeyStore kstore = KeyStore.getInstance("PKCS12");
             kstore.load(is, "episen".toCharArray());
