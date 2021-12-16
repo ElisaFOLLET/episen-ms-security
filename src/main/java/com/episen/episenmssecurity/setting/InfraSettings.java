@@ -11,11 +11,8 @@ import java.security.PrivateKey;
 import java.security.cert.Certificate;
 
 public class InfraSettings {
-    @Value( "${path}" )
-    private static String path;
-
     public static KeyPair keyPairLoader(){
-        try(FileInputStream is = new FileInputStream(path)) {
+        try(FileInputStream is = new FileInputStream(System.getenv().get("path"))) {
 
             KeyStore kstore = KeyStore.getInstance("PKCS12");
             kstore.load(is, "episen".toCharArray());
