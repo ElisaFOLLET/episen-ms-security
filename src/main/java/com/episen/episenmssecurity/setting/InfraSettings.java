@@ -1,5 +1,7 @@
 package com.episen.episenmssecurity.setting;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.security.Key;
@@ -9,14 +11,11 @@ import java.security.PrivateKey;
 import java.security.cert.Certificate;
 
 public class InfraSettings {
+    @Value( "${path}" )
+    private static String path;
 
-    /**
-     * It is necessary to modify the path of the folder server.p12
-     * @return KeyPair
-     */
     public static KeyPair keyPairLoader(){
-
-        try(FileInputStream is = new FileInputStream(${PATH})) {
+        try(FileInputStream is = new FileInputStream(path)) {
 
             KeyStore kstore = KeyStore.getInstance("PKCS12");
             kstore.load(is, "episen".toCharArray());
