@@ -16,7 +16,7 @@ public class InfraSettings {
      */
     public static KeyPair keyPairLoader(){
 
-        try(FileInputStream is = new FileInputStream($PATH)) {
+        try(FileInputStream is = new FileInputStream(${PATH})) {
 
             KeyStore kstore = KeyStore.getInstance("PKCS12");
             kstore.load(is, "episen".toCharArray());
