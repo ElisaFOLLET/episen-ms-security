@@ -13,6 +13,9 @@ RUN git clone https://github.com/ElisaFOLLET/episen-ms-security \
 && cd episen-ms-security/ \
 && mvn clean package
 
+#Copie des clés dans le conteneur docker --> il faut avoir généré server.p12 avant et exécuter Dockerfile dans le même répertoire
+COPY server.p12 /episen-ms-security/target/server.p12
+
 #Lancement de l'application
 WORKDIR /episen-ms-security/target/
 ENTRYPOINT ["java", "-jar", "episen-ms-security-0.0.1-SNAPSHOT.jar"]
