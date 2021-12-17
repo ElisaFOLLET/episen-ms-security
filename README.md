@@ -33,7 +33,7 @@ Le fichier Dockerfile permet de :
 - Générer l'executable avec maven
 - Définir la commande de lancement du container
 
-Pour exécuter le fichier :
+Pour exécuter le fichier (celui-ci doit se trouver dans le répertoire où se trouve le fichier server.p12) :
 
 $ docker build -t episen-ms-security .
 
